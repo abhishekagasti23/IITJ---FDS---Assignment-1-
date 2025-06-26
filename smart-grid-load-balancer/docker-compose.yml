@@ -1,0 +1,43 @@
+
+services:
+  charge_request:
+    build:
+      context: ./charge_request_service
+    ports:
+      - "5000:5000"
+    depends_on:
+      - load_balancer
+
+  load_balancer:
+    build:
+      context: ./load_balancer
+    ports:
+      - "5002:5002"
+    depends_on:
+      - substation1
+      - substation2
+
+  substation1:
+    build:
+      context: ./substation_service
+    ports:
+      - "5001:5001"
+
+  substation2:
+    build:
+      context: ./substation_service
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: up702094
