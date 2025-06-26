@@ -1,0 +1,25 @@
+version: "3"
+services:
+  node0:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ID=0
+      - NUM_NODES=3
+
+  node1:
+    build: .
+    ports:
+      - "5101:5000" 
+    environment:
+      - NODE_ID=1
+      - NUM_NODES=3
+
+  node2:
+    build: .
+    ports:
+      - "5102:5000"  
+    environment:
+      - NODE_ID=2
+      - NUM_NODES=3
